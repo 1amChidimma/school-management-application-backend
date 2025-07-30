@@ -24,7 +24,6 @@ public class AdminService {
     private final SchoolClassRepository schoolClassRepository;
     private final SubjectRepository subjectRepository;
 
-
     // To create users/classes:
     public SchoolClass createClass(CreateClassRequest classRequest) {
         if (schoolClassRepository.existsByName(classRequest.getName())){
@@ -142,12 +141,12 @@ public class AdminService {
 
     public List<ViewTeacherResponse> getTeacherByClass(Long classId) {
         return subjectRepository.findBySchoolClassId(classId).stream()
-                .map(Subject::getTeacher)
-                .distinct()
-                .map(t -> ViewTeacherResponse.builder()
-                        .id(t.getId())
-                        .name(t.getName())
-                        .staffNumber(t.getStaffNumber())
+                .map(subject -> ViewTeacherResponse.builder()
+                        .id(subject.getTeacher().getId())
+                        .name(subject.getTeacher().getName())
+                        .staffNumber(subject.getTeacher().getStaffNumber())
+                        .subjectName(subject.getName())
+                        .className(subject.getSchoolClass().getName())
                         .build())
                 .collect(Collectors.toList());
     }
