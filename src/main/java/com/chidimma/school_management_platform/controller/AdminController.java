@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/school/admin")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class AdminController {
     private final AdminService adminService;
 
@@ -54,12 +55,16 @@ public class AdminController {
 
     @GetMapping("/students")
     public ResponseEntity<List<ViewStudentResponse>> getAllStudents(){
-        return ResponseEntity.ok(adminService.getAllStudents());
+        List<ViewStudentResponse> students = adminService.getAllStudents();
+        System.out.println(">>> getAllStudents response: " + students);
+        return ResponseEntity.ok(students);
     }
 
     @GetMapping("/teachers")
     public ResponseEntity<List<ViewTeacherResponse>> getAllTeachers(){
-        return ResponseEntity.ok(adminService.getAllTeachers());
+        List<ViewTeacherResponse> teachers = adminService.getAllTeachers();
+        System.out.println(">>> getAllStudents response: " + teachers);
+        return ResponseEntity.ok(teachers);
     }
 
     @GetMapping("/classes/{classId}/students")
